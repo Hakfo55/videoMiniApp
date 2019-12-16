@@ -1,0 +1,8 @@
+com\cyj\mapper\SearchRecordsMapper.class
+com\cyj\mapper\UsersLikeVideosMapper.class
+com\cyj\mapper\VideoMapper.class
+com\cyj\mapper\UsersReportMapper.class
+com\cyj\mapper\BgmMapper.class
+com\cyj\mapper\UsersMapper.class
+com\cyj\mapper\CommentMapper.class
+com\cyj\mapper\UsersFansMapper.class

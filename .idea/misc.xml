@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/short-video-api" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/short-video/pom.xml" />
+        <option value="$PROJECT_DIR$/short-video-common/pom.xml" />
+        <option value="$PROJECT_DIR$/short-video-pojo/pom.xml" />
+        <option value="$PROJECT_DIR$/short-video-mapper/pom.xml" />
+        <option value="$PROJECT_DIR$/short-video-service/pom.xml" />
+        <option value="$PROJECT_DIR$/short-video-api/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
