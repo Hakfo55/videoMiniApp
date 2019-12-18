@@ -20,6 +20,11 @@ public class Comment {
     @Column(name = "create_time")
     private Date createTime;
 
-    private String comment;
+    @Column(name = "father_comment_id")
+    private String fatherCommentId;
 
+    @Column(name = "to_user_id")
+    private String toUserId;
+
+    private String comment;
 }

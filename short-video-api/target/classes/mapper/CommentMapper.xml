@@ -9,6 +9,32 @@
     <result column="video_id" jdbcType="VARCHAR" property="videoId" />
     <result column="from_user_id" jdbcType="VARCHAR" property="fromUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="father_comment_id" jdbcType="VARCHAR" property="fatherCommentId" />
+    <result column="to_user_id" jdbcType="VARCHAR" property="toUserId" />
     <result column="comment" jdbcType="LONGVARCHAR" property="comment" />
   </resultMap>
+
+  <resultMap id="voResultMap" type="com.cyj.pojo.vo.CommentVO">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="video_id" jdbcType="VARCHAR" property="videoId" />
+    <result column="from_user_id" jdbcType="VARCHAR" property="fromUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="comment" jdbcType="LONGVARCHAR" property="comment" />
+    <result column="face_image" jdbcType="VARCHAR" property="faceImage" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="toNickname" jdbcType="VARCHAR" property="toNickname" />
+  </resultMap>
+
+  <select id="findByVideoId" parameterType="String" resultMap="voResultMap">
+    select c.*,u.face_image as face_image,u.nickname,tu.nickname as toNickname
+    from comment c
+    left join users u on c.from_user_id = u.id
+    left join users tu on c.to_user_id = tu.id
+    where c.video_id = #{videoId}
+    order by c.create_time desc
+
+  </select>
 </mapper>

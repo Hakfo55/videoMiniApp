@@ -1,5 +1,6 @@
 package com.cyj.service;
 
+import com.cyj.pojo.Comment;
 import com.cyj.pojo.Video;
 import com.cyj.utils.PagedResult;
 
@@ -26,4 +27,8 @@ public interface VideoService {
     PagedResult queryMyLikeVideo(String userId,Integer page,Integer pageSize);
 
     PagedResult queryMyFollowVideo(String userId,Integer page,Integer pageSize);
+
+    void saveComment(Comment comment);
+
+    PagedResult getVideoComments(String videoId,Integer page,Integer pageSize);
 }

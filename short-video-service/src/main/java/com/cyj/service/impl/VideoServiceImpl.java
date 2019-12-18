@@ -1,17 +1,18 @@
 package com.cyj.service.impl;
 
-import com.cyj.mapper.SearchRecordsMapper;
-import com.cyj.mapper.UsersLikeVideosMapper;
-import com.cyj.mapper.UsersMapper;
-import com.cyj.mapper.VideoMapper;
+import com.cyj.mapper.*;
+import com.cyj.pojo.Comment;
 import com.cyj.pojo.SearchRecords;
 import com.cyj.pojo.UsersLikeVideos;
 import com.cyj.pojo.Video;
+import com.cyj.pojo.vo.CommentVO;
 import com.cyj.pojo.vo.VideoVo;
 import com.cyj.service.VideoService;
 import com.cyj.utils.PagedResult;
+import com.cyj.utils.TimeAgoUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.n3r.idworker.IdWorker;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,6 +35,8 @@ public class VideoServiceImpl implements VideoService {
     private UsersLikeVideosMapper usersLikeVideosMapper;
     @Autowired
     private UsersMapper usersMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
 
     @Override
@@ -153,6 +157,34 @@ public class VideoServiceImpl implements VideoService {
 
         return pagedResult;
 
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveComment(Comment comment) {
+        String id = sid.nextShort();
+        comment.setId(id);
+        comment.setCreateTime(new Date());
+        commentMapper.insert(comment);
+    }
+
+    public PagedResult getVideoComments(String videoId,Integer page,Integer pageSIze){
+        PageHelper.startPage(page,pageSIze);
+        List<CommentVO> commentVOList = commentMapper.findByVideoId(videoId);
+
+        commentVOList.forEach(commentVO -> {
+            String timeAgo = TimeAgoUtils.format(commentVO.getCreateTime());
+            commentVO.setTimeAgoStr(timeAgo);
+        });
+
+        PageInfo<CommentVO> pageInfo = new PageInfo<>(commentVOList);
+
+        PagedResult pagedResult = new PagedResult();
+        pagedResult.setPage(page);
+        pagedResult.setTotal(pageInfo.getPages());
+        pagedResult.setRecords(pageInfo.getTotal());
+        pagedResult.setRows(commentVOList);
+        return pagedResult;
     }
 
 }

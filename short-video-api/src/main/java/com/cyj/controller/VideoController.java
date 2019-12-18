@@ -2,6 +2,7 @@ package com.cyj.controller;
 
 import com.cyj.enums.VideoStatusEnum;
 import com.cyj.pojo.Bgm;
+import com.cyj.pojo.Comment;
 import com.cyj.pojo.UsersReport;
 import com.cyj.pojo.Video;
 import com.cyj.service.BgmService;
@@ -250,6 +251,24 @@ public class VideoController extends BasicController{
 
         PagedResult pagedResult = videoService.queryMyFollowVideo(userId,page,pageSize);
         return VideoJSONResult.ok(pagedResult);
+    }
+
+    @PostMapping("/saveComment")
+    public VideoJSONResult saveComment(@RequestBody Comment comment){
+        videoService.saveComment(comment);
+        return VideoJSONResult.ok();
+    }
+
+    @PostMapping("/getVideoComments")
+    public VideoJSONResult getVideoComments(
+            @RequestParam(name ="videoId") String videoId,
+            @RequestParam(name ="page",defaultValue = "1") Integer page,
+            @RequestParam(name ="pageSize",defaultValue = "10") Integer pageSize){
+        if (StringUtils.isBlank(videoId)){
+            return VideoJSONResult.errorMsg("视频id为空");
+        }
+        PagedResult result = videoService.getVideoComments(videoId, page, pageSize);
+        return VideoJSONResult.ok(result);
     }
 
 }
