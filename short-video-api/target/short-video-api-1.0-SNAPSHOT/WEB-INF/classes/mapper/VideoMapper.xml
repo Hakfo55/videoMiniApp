@@ -46,6 +46,9 @@
           <if test="videoDesc != null and videoDesc != '' ">
               and v.video_desc like '%${videoDesc}%'
           </if>
+          <if test="userId != null and userId != '' ">
+            and v.user_id = #{userId}
+          </if>
         order by v.create_time desc
   </select>
 
@@ -58,4 +61,22 @@
     update video set like_counts = like_counts - 1
     where id = #{videoId}
   </update>
+
+  <select id="queryMyLikeVideos" resultMap="VoResultMap" parameterType="String">
+    select v.*,u.face_image as face_image,u.nickname as nickname from video v
+    left join users u on u.id = v.user_id
+    where
+        v.status = 1
+        and v.id in (select ulv.video_id from users_like_videos ulv where ulv.user_id = #{userId})
+    order by v.create_time desc
+  </select>
+
+  <select id="queryMyFollowVideos" resultMap="VoResultMap" parameterType="String">
+    select v.*,u.face_image as face_image,u.nickname as nickname from video v
+    left join users u on u.id = v.user_id
+    where
+        v.status = 1
+        and v.user_id in (select uf.user_id from users_fans uf where uf.fan_id = #{userId})
+    order by v.create_time desc
+  </select>
 </mapper>

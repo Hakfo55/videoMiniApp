@@ -16,6 +16,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("file:C:/Users/canyugin/Desktop/videoxcx/resources/");
     }
 
+    @Bean(initMethod = "init")
+    public ZKCuratorClient zkCuratorClient(){
+        return new ZKCuratorClient();
+    }
+
+
     @Bean
     public ApiInterceptor apiInterceptor(){
         return new ApiInterceptor();
